@@ -16,4 +16,20 @@ datasource db {
 model User {
   authSchId String @id
   email     String @unique
+  chats     Chat[]
+}
+
+model Chat {
+  id       Int       @id
+  messages Message[]
+
+  userId String
+  user   User   @relation(fields: [userId], references: [authSchId])
+}
+
+model Message {
+  id Int @id
+
+  chatId Int
+  chat   Chat @relation(fields: [chatId], references: [id])
 }
