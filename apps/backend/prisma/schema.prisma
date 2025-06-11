@@ -16,11 +16,16 @@ datasource db {
 model User {
   authSchId String @id
   email     String @unique
-  chats     Chat[]
+
+  username String
+  chats    Chat[]
 }
 
 model Chat {
-  id       Int       @id
+  id        Int      @id
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
   messages Message[]
 
   userId String
@@ -28,8 +33,18 @@ model Chat {
 }
 
 model Message {
-  id Int @id
+  id        Int      @id
+  createdAt DateTime @default(now())
+
+  index   Int
+  message String
+  sentBy  SentBy
 
   chatId Int
   chat   Chat @relation(fields: [chatId], references: [id])
+}
+
+enum SentBy {
+  USER
+  BOT
 }
