@@ -16,4 +16,35 @@ datasource db {
 model User {
   authSchId String @id
   email     String @unique
+
+  username String
+  chats    Chat[]
+}
+
+model Chat {
+  id        Int      @id
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  messages Message[]
+
+  userId String
+  user   User   @relation(fields: [userId], references: [authSchId])
+}
+
+model Message {
+  id        Int      @id
+  createdAt DateTime @default(now())
+
+  index   Int
+  message String
+  sentBy  SentBy
+
+  chatId Int
+  chat   Chat @relation(fields: [chatId], references: [id])
+}
+
+enum SentBy {
+  USER
+  BOT
 }
