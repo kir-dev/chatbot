@@ -14,9 +14,7 @@ datasource db {
 }
 
 model User {
-  authSchId String @id
-  email     String @unique
-
+  id       Int    @id @default(autoincrement())
   username String
   chats    Chat[]
 }
@@ -28,8 +26,8 @@ model Chat {
 
   messages Message[]
 
-  userId String
-  user   User   @relation(fields: [userId], references: [authSchId])
+  userId Int
+  user   User @relation(fields: [userId], references: [id])
 }
 
 model Message {
