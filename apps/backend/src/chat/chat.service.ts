@@ -1,5 +1,5 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { SentBy } from '@prisma/client';
+import { Chat, SentBy } from '@prisma/client';
 import { PrismaService } from 'nestjs-prisma';
 import { AddMessageDto } from './dto/add-message.dto';
 
@@ -7,8 +7,8 @@ import { AddMessageDto } from './dto/add-message.dto';
 export class ChatService {
   constructor(private readonly prisma: PrismaService) {}
 
-  async addMessage(addMessageDto: AddMessageDto) {
-    var chat = await this.prisma.chat.findUnique({
+  async addMessage(addMessageDto: AddMessageDto): Promise<Chat> {
+    const chat = await this.prisma.chat.findUnique({
       where: { id: addMessageDto.chatId },
       include: { messages: true },
     });
