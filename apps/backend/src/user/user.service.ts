@@ -1,11 +1,44 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
+import { PrismaService } from 'nestjs-prisma';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UserDto } from './dto/user.dto';
-import { PrismaService } from 'nestjs-prisma';
 
 @Injectable()
 export class UserService {
   constructor(private readonly prisma: PrismaService) {}
+
+  async getUserByName(username: string): Promise<UserDto> {
+    const user = await this.prisma.user.findFirst({
+      where: { username },
+      include: {
+        chats: {
+          include: {
+            messages: true,
+          },
+        },
+      },
+    });
+
+    if (!user) {
+      throw new NotFoundException('User not found');
+    }
+
+    return {
+      id: user.id,
+      username: user.username,
+      chats: user.chats.map((chat) => ({
+        id: chat.id,
+        createdAt: chat.createdAt,
+        updatedAt: chat.updatedAt,
+          messages: chat.messages.map((message) => ({
+          id: message.id,
+          index: message.index,
+          message: message.message,
+          sentByBot: message.sentBy == 'USER',
+        })),
+      })),
+    };
+  }
 
   async getUserById(id: number): Promise<UserDto> {
     const user = await this.prisma.user.findFirst({

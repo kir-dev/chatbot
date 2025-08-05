@@ -1,11 +1,19 @@
-import { Body, Controller, Get, Post, Param, BadRequestException, Delete } from '@nestjs/common';
-import { UserService } from './user.service';
+import { BadRequestException, Body, Controller, Delete, Get, Param, Post, Query } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UserDto } from './dto/user.dto';
+import { UserService } from './user.service';
 
 @Controller('/user')
 export class UserController {
   constructor(private readonly userService: UserService) {}
+
+  @Get('login')
+  async login(@Query('username') username: string): Promise<UserDto> {
+    if (!username) {
+      throw new BadRequestException('Username is required');
+    }
+    return this.userService.getUserByName(username);
+  }
 
   @Get(':id')
   async getUserById(@Param('id') id: string): Promise<UserDto> {
@@ -34,4 +42,6 @@ export class UserController {
     }
     return this.userService.deleteUser(userId);
   }
+
+
 }
