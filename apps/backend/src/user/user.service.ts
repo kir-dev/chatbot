@@ -30,7 +30,7 @@ export class UserService {
         id: chat.id,
         createdAt: chat.createdAt,
         updatedAt: chat.updatedAt,
-          messages: chat.messages.map((message) => ({
+        messages: chat.messages.map((message) => ({
           id: message.id,
           index: message.index,
           message: message.message,
@@ -41,7 +41,7 @@ export class UserService {
   }
 
   async getUserById(id: number): Promise<UserDto> {
-    const user = await this.prisma.user.findFirst({
+    const user = await this.prisma.user.findUnique({
       where: { id: id },
       // Ezzel a chats-et is megkapjuk
       include: {
