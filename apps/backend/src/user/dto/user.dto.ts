@@ -8,7 +8,7 @@ export class ChatDto {
   id: number;
   createdAt: Date;
   updatedAt: Date;
-  messages?: MessageDto[];
+  messages: MessageDto[];
 }
 
 class MessageDto {
