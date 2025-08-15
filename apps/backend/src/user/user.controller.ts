@@ -7,7 +7,7 @@ import { UserService } from './user.service';
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
-  @Get('login')
+  @Get('/login')
   async login(@Query('username') username: string): Promise<UserDto> {
     if (!username?.trim()) {
       throw new BadRequestException('Username is required');
@@ -19,19 +19,6 @@ export class UserController {
         return this.userService.createUser({ username });
       }
       throw new BadRequestException('Login failed');
-    }
-  }
-
-  @Post() // This matches your POST /users calls
-  async createUser(@Body() dto: CreateUserDto): Promise<UserDto> {
-    try {
-      return await this.userService.createUser(dto);
-    } catch (error) {
-      if (error.code === 'P2002') {
-        // Prisma unique constraint error
-        throw new BadRequestException('Username already exists');
-      }
-      throw new BadRequestException('Failed to create user');
     }
   }
 
@@ -49,10 +36,10 @@ export class UserController {
     return this.userService.getAllUsers();
   }
 
-  //@Post()
-  //async createUser(@Body() dto: CreateUserDto): Promise<UserDto> {
-  //  return this.userService.createUser(dto);
-  //}
+  @Post()
+  async createUser(@Body() dto: CreateUserDto): Promise<UserDto> {
+    return this.userService.createUser(dto);
+  }
 
   @Delete(':id')
   async deleteUser(@Param('id') id: string): Promise<void> {
