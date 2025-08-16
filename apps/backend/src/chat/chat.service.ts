@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { ForbiddenException, Injectable, NotFoundException } from '@nestjs/common';
 import { Chat, SentBy } from '@prisma/client';
 import { PrismaService } from 'nestjs-prisma';
 import { AddMessageDto } from './dto/add-message.dto';
@@ -12,9 +12,14 @@ export class ChatService {
       where: { id: addMessageDto.chatId },
       include: { messages: true },
     });
+    
     if (!chat) {
       throw new NotFoundException('Chat not found');
     }
+    if (chat.userId != addMessageDto.userId){
+      throw new ForbiddenException('Chat belongs to a different user')
+    }
+
     const lastMessage = chat.messages.length == 0 ? undefined : chat.messages[chat.messages.length - 1];
     const userMessage = {
       message: addMessageDto.message,
