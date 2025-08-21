@@ -1,25 +1,28 @@
 import { ForbiddenException, Injectable, NotFoundException } from '@nestjs/common';
-import { Chat, SentBy } from '@prisma/client';
+import { SentBy } from '@prisma/client';
 import { PrismaService } from 'nestjs-prisma';
 import { AddMessageDto } from './dto/add-message.dto';
 import { CreateChatDto } from './dto/create-chat.dto';
+import { Chat } from './entities/chat.entity';
 
 @Injectable()
 export class ChatService {
   constructor(private readonly prisma: PrismaService) {}
 
   async createChat(createChatDto: CreateChatDto): Promise<Chat> {
-    return await this.prisma.chat.create({ data: { userId: createChatDto.userId } });
+    return await this.prisma.chat.create({ data: { userId: createChatDto.userId }, include: { messages: true } });
   }
 
   async addMessage(addMessageDto: AddMessageDto): Promise<Chat> {
+    var chat: Chat;
     if (!addMessageDto.chatId) {
-      this.createChat({ userId: addMessageDto.userId });
+      chat = await this.createChat({ userId: addMessageDto.userId });
+    } else {
+      chat = await this.prisma.chat.findUnique({
+        where: { id: addMessageDto.chatId },
+        include: { messages: true },
+      });
     }
-    const chat = await this.prisma.chat.findUnique({
-      where: { id: addMessageDto.chatId },
-      include: { messages: true },
-    });
 
     if (!chat) {
       throw new NotFoundException('Chat not found');
@@ -42,8 +45,9 @@ export class ChatService {
     };
 
     return await this.prisma.chat.update({
-      where: { id: addMessageDto.chatId },
+      where: { id: chat.id },
       data: { messages: { createMany: { data: [userMessage, botMessage] } } },
+      include: { messages: true },
     });
   }
 }
