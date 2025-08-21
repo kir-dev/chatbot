@@ -5,14 +5,34 @@ import { useState } from 'react';
 export default function LoginPage() {
   const [username, setUsername] = useState('');
   const [isFocused, setIsFocused] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState('');
 
-  const handleLogin = () => {
-    if (!username.trim()) {
-      alert('Please enter a username');
-      return;
-    }
-    window.location.href = `/chat?username=${encodeURIComponent(username)}`;
-  };
+ const handleLogin = () => {
+  if (!username.trim()) {
+    alert('Please enter a username');
+    return;
+  }
+
+  setIsLoading(true);
+  setError('');
+
+  fetch(`http://localhost:3001/user/login?username=${encodeURIComponent(username)}`)
+    .then(response => {
+      if (response.ok) {
+        return response.json();
+      }
+      throw new Error('Login failed');
+    })
+    .then(data => {
+      // Login successful, redirect to chat
+      window.location.href = `/chat?username=${encodeURIComponent(username)}`;
+    })
+    .catch(error => {
+      console.error('Error:', error);
+      alert('Login failed: ' + error.message);
+    });
+};
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-gray-900 to-black">
