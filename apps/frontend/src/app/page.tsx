@@ -25,14 +25,13 @@ export default function LoginPage() {
       .catch((error) => {
         console.error('Error:', error);
         alert('Login failed: ' + error.message);
-      })
-
+      });
   };
 
   return (
     <div className='flex items-center justify-center min-h-screen bg-gradient-to-br from-gray-900 to-black'>
       <div className='relative bg-gray-800/50 p-8 rounded-2xl w-full max-w-md backdrop-blur-sm border border-gray-700 shadow-2xl transition-all duration-300 hover:shadow-emerald-500/10'>
-        <div className='absolute -inset-1 rounded-2xl bg-gradient-to-r from-green-400 to-emerald-600 opacity-20 blur-sm transition-all duration-500'/>
+        <div className='absolute -inset-1 rounded-2xl bg-gradient-to-r from-green-400 to-emerald-600 opacity-20 blur-sm transition-all duration-500' />
         <div className='relative z-10 space-y-6'>
           <div className='text-center'>
             <h1 className='text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-emerald-600 mb-2'>
