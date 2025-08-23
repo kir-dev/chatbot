@@ -14,7 +14,7 @@ export class ChatService {
   }
 
   async addMessage(addMessageDto: AddMessageDto): Promise<Chat> {
-    var chat: Chat;
+    let chat: Chat;
     if (!addMessageDto.chatId) {
       chat = await this.createChat({ userId: addMessageDto.userId });
     } else {
