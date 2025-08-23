@@ -13,22 +13,27 @@
     "lint:frontend": "cd apps/frontend && pnpm lint",
     "lint:backend": "cd apps/backend && pnpm lint",
     "lint": "concurrently \"pnpm lint:frontend\" \"pnpm lint:backend\"",
-    "lint:fix": "eslint apps --ext .ts,.tsx --fix",
+    "lint:fix": "eslint apps/**/*.{ts,tsx} --fix",
     "format": "prettier --write apps",
     "format:check": "prettier --check apps"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3.3.1",
-    "@eslint/js": "^9.23.0",
+    "@eslint/js": "^9.33.0",
+    "@types/node": "^24.3.0",
     "@typescript-eslint/eslint-plugin": "^8.28.0",
     "@typescript-eslint/parser": "^8.28.0",
     "concurrently": "^9.1.2",
-    "eslint": "^9.23.0",
+    "eslint": "^9.33.0",
     "eslint-config-prettier": "^10.1.1",
     "eslint-plugin-prettier": "5.2.5",
+    "eslint-plugin-react": "^7.37.4",
     "eslint-plugin-simple-import-sort": "^12.1.1",
+    "globals": "^16.3.0",
+    "jiti": "^2.5.1",
     "prettier": "^3.5.3",
-    "prisma": "^6.13.0"
+    "prisma": "^6.13.0",
+    "typescript-eslint": "^8.40.0"
   },
   "resolutions": {
     "wrap-ansi": "7.0.0",
