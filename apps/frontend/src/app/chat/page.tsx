@@ -1,3 +1,18 @@
+'use client';
+
+import Topbar from '@/components/topbar';
+
 export default function ChatPage() {
-  return <div className='flex items-center justify-center h-full text-5xl'>Chat Page</div>;
+  const handleSidebarOpen = () => {
+    console.log('Sidebar open');
+  };
+  return (
+    <>
+      <div>
+        <Topbar username='User Name' onMenuClick={handleSidebarOpen} />
+        {/* */}
+      </div>
+      <div className='flex items-center bg-center justify-center min-h-screen text-5xl'>Chat Page</div>
+    </>
+  );
 }
