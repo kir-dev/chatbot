@@ -7,6 +7,11 @@ import { UserDto } from './dto/user.dto';
 export class UserService {
   constructor(private readonly prisma: PrismaService) {}
 
+  async validateUser(username: string): Promise<boolean> {
+    const user = await this.getUserByName(username);
+    return !!user;
+  }
+
   async getUserByName(username: string): Promise<UserDto> {
     const user = await this.prisma.user.findFirst({
       where: { username },

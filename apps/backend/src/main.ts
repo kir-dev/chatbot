@@ -7,6 +7,11 @@ import { AppModule } from './app.module';
 async function bootstrap(): Promise<void> {
   const app = await NestFactory.create(AppModule);
 
+  app.enableCors({
+    origin: process.env.FRONTEND_URL || 'http://localhost:3000',
+    credentials: true,
+  });
+
   const config = new DocumentBuilder().setTitle('API').setDescription('API description').setVersion('1.0').build();
   const documentFactory = (): OpenAPIObject => SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, documentFactory);

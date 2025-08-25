@@ -1,4 +1,14 @@
-import { BadRequestException, Body, Controller, Delete, Get, Param, Post, Query } from '@nestjs/common';
+import {
+  BadRequestException,
+  Body,
+  Controller,
+  Delete,
+  Get,
+  NotFoundException,
+  Param,
+  Post,
+  Query,
+} from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UserDto } from './dto/user.dto';
 import { UserService } from './user.service';
@@ -15,7 +25,7 @@ export class UserController {
     try {
       return await this.userService.getUserByName(username);
     } catch (error) {
-      if (error instanceof BadRequestException) {
+      if (error instanceof NotFoundException) {
         return this.userService.createUser({ username });
       }
       throw new BadRequestException('Login failed');

@@ -41,6 +41,7 @@ const config = [
       '@typescript-eslint/no-empty-function': 'warn',
       '@typescript-eslint/no-extra-semi': 'off',
       '@typescript-eslint/no-unused-vars': 'error',
+      '@typescript-eslint/no-unused-expressions': 'off',
     },
   },
 ];
