@@ -25,7 +25,7 @@ export default function Topbar({ username, onMenuClick }: TopbarProps) {
   };
 
   return (
-    <header className='flex justify-between w-full h-14 p-2 bg-gray-600 shadow-md'>
+    <header className='flex justify-between h-14 p-2 bg-gray-600 shadow-md'>
       {/*
         flex → sets display: flex;, enabling a flexible layout.
         justify-between → places flex items on opposite sides (left and right) with space in between (justify-content: space-between;).
