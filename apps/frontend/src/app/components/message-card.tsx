@@ -4,7 +4,7 @@ import { Message, SentBy } from '../types/message';
 export default function MessageCard({ message }: { message: Message }) {
   return (
     <div className={`flex ${message.sentBy == SentBy.USER ? 'flex-row' : 'flex-row-reverse'}`}>
-      <div className='flex-1 min-w-1/6'></div>
+      <div className='flex-1 min-w-1/6' />
       <div
         className={`flex flex-row p-2 rounded-lg ${message.sentBy == SentBy.USER ? 'bg-green-400 text-black' : 'text-white'}`}
       >
