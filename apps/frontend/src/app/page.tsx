@@ -19,8 +19,8 @@ export default function LoginPage() {
         }
         throw new Error('Login failed');
       })
-      .then(() => {
-        window.location.href = `/chat?username=${encodeURIComponent(username)}`;
+      .then((response) => {
+        window.location.href = `/chat?userid=${encodeURIComponent(response.id)}`;
       })
       .catch((error) => {
         console.error('Error:', error);
